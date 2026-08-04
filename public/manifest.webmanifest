@@ -1,0 +1,14 @@
+{
+  "name": "FRONTLINE: Conquest",
+  "short_name": "FRONTLINE",
+  "description": "Infantry-first Three.js conquest combat.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#080b0a",
+  "theme_color": "#101614",
+  "icons": [
+    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
