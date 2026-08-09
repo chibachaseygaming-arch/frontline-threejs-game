@@ -60,9 +60,16 @@ export default function Game() {
 
     const obstacles: THREE.Object3D[] = [];
     const obstacleBounds: THREE.Box3[] = [];
-    const addBox = (x:number,z:number,w:number,h:number,d:number,color=0x5d6058) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({color,roughness:.82})); m.position.set(x,h/2,z); m.castShadow=true;m.receiveShadow=true;scene.add(m);obstacles.push(m);obstacleBounds.push(new THREE.Box3(new THREE.Vector3(x-w/2-.42,0,z-d/2-.42),new THREE.Vector3(x+w/2+.42,h,z+d/2+.42))); };
+    const treeTexture = new THREE.TextureLoader().load(new URL("tree-prop.png", document.baseURI).toString()); treeTexture.colorSpace = THREE.SRGBColorSpace;
+    const treeMaterial = new THREE.MeshStandardMaterial({map:treeTexture,transparent:true,alphaTest:.08,side:THREE.DoubleSide,roughness:.95,metalness:0});
+    const addBox = (x:number,z:number,w:number,h:number,d:number) => {
+      const treeWidth=Math.max(7,Math.min(22,w*1.15)),treeHeight=treeWidth/1.89,tree=new THREE.Group();
+      for(const rotation of [0,Math.PI/2]){const plane=new THREE.Mesh(new THREE.PlaneGeometry(treeWidth,treeHeight),treeMaterial.clone());plane.rotation.y=rotation;plane.castShadow=true;plane.receiveShadow=true;tree.add(plane);}
+      tree.position.set(x,treeHeight/2,z);tree.rotation.y=((x*13+z*7)%360)*Math.PI/180;scene.add(tree);obstacles.push(tree);
+      obstacleBounds.push(new THREE.Box3(new THREE.Vector3(x-w/2-.42,0,z-d/2-.42),new THREE.Vector3(x+w/2+.42,treeHeight,z+d/2+.42)));
+    };
     [[-26,-10,20,6,8],[28,12,22,5,9],[-5,34,10,9,18],[9,-35,11,7,16],[-48,29,16,4,8],[47,-28,18,4,9]].forEach(v=>addBox(...(v as [number,number,number,number,number])));
-    for(let i=0;i<26;i++){const a=i/26*Math.PI*2,r=70+(i%4)*12;addBox(Math.sin(a)*r,Math.cos(a)*r,2+(i%3),2.2,7,0x4c5147);}
+    for(let i=0;i<26;i++){const a=i/26*Math.PI*2,r=70+(i%4)*12;addBox(Math.sin(a)*r,Math.cos(a)*r,2+(i%3),2.2,7);}
 
     const isBlocked = (x:number,z:number,radius=.42) => x < -159 + radius || x > 159 - radius || z < -159 + radius || z > 159 - radius || obstacleBounds.some(bounds => x > bounds.min.x - radius && x < bounds.max.x + radius && z > bounds.min.z - radius && z < bounds.max.z + radius);
     const moveBot = (bot:Bot, delta:THREE.Vector3) => {
