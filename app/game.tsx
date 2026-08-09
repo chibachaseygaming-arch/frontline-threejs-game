@@ -66,7 +66,11 @@ export default function Game() {
       const treeWidth=Math.max(7,Math.min(22,w*1.15)),treeHeight=treeWidth/1.89,tree=new THREE.Group();
       for(const rotation of [0,Math.PI/2]){const plane=new THREE.Mesh(new THREE.PlaneGeometry(treeWidth,treeHeight),treeMaterial.clone());plane.rotation.y=rotation;plane.castShadow=true;plane.receiveShadow=true;tree.add(plane);}
       tree.position.set(x,treeHeight/2,z);tree.rotation.y=((x*13+z*7)%360)*Math.PI/180;scene.add(tree);obstacles.push(tree);
-      obstacleBounds.push(new THREE.Box3(new THREE.Vector3(x-w/2-.42,0,z-d/2-.42),new THREE.Vector3(x+w/2+.42,treeHeight,z+d/2+.42)));
+      // The crossed billboards occupy a square footprint equal to their visible width.
+      // Keep collision and line-of-sight bounds aligned with that footprint instead
+      // of retaining the old rectangular block dimensions.
+      const treeHalf=treeWidth/2;
+      obstacleBounds.push(new THREE.Box3(new THREE.Vector3(x-treeHalf,0,z-treeHalf),new THREE.Vector3(x+treeHalf,treeHeight,z+treeHalf)));
     };
     [[-26,-10,20,6,8],[28,12,22,5,9],[-5,34,10,9,18],[9,-35,11,7,16],[-48,29,16,4,8],[47,-28,18,4,9]].forEach(v=>addBox(...(v as [number,number,number,number,number])));
     for(let i=0;i<26;i++){const a=i/26*Math.PI*2,r=70+(i%4)*12;addBox(Math.sin(a)*r,Math.cos(a)*r,2+(i%3),2.2,7);}
@@ -188,4 +192,3 @@ export default function Game() {
     {(screen==="loadout"||screen==="dead")&&<div className="menu"><header><div className="brand-mark">F</div><div><h1>FRONTLINE</h1><p>INFANTRY COMBAT SYSTEM</p></div><div className="online-dot">â— <span>THEATER ONLINE</span></div></header><section className="brief"><div><span>OPERATION</span><h2>IRON VALLEY</h2><p>CONQUEST // SECURE AND HOLD ALL SECTORS</p></div><div className="ticket"><span>VICTORY CONDITION</span><b>500</b><small>TEAM POINTS</small></div></section><div className="loadout-title"><div><span>SELECT LOADOUT</span><h3>{screen==="dead"?"KILLED IN ACTION â€” REDEPLOY":"CHOOSE YOUR ROLE"}</h3></div><label>AI DIFFICULTY <select value={difficulty} onChange={e=>setDifficulty(e.target.value as keyof typeof DIFFICULTIES)}><option>RECRUIT</option><option>REGULAR</option><option>VETERAN</option></select></label></div><div className="class-grid">{CLASS_KEYS.map((k,i)=>{const c=CLASSES[k];return <button key={k} className={selected===k?"active":""} onClick={()=>setSelected(k)}><span className="class-num">0{i+1}</span><div className="soldier">{["â™Ÿ","â™ž","â™œ","â™›","â™"][i]}</div><h4>{c.label}</h4><p>{c.weapon}</p><dl><div><dt>MOBILITY</dt><dd><i style={{width:`${c.speed*8}%`}}/></dd></div><div><dt>POWER</dt><dd><i style={{width:`${Math.min(100,c.damage*1.5)}%`}}/></dd></div></dl></button>})}</div><div className="deploy-row"><div><span>DEPLOYMENT</span><b>EASTERN BASE</b><small>BLUE CONTROLLED</small></div><button className="deploy" onClick={launch}>{screen==="dead"?"REDEPLOY":"DEPLOY"}<kbd>ENTER</kbd></button></div><footer><span>BUILD 0.1 // INFANTRY PROTOTYPE</span><span>CPU SQUADS ACTIVE</span></footer></div>}
   </main>;
 }
-
