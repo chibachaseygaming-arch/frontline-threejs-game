@@ -1,33 +1,35 @@
 # NEON PURSUIT
 
-NEON PURSUIT - Aircraft Machine Gun Update
+Latest browser-game build with the aircraft machine-gun update.
 
-JET
-- Hold LEFT MOUSE BUTTON (LMB) = rapid-fire machine gun.
-- E = missile.
-- SPACE = climb.
-- C = cockpit / normal view.
+## Jet
+- Hold **LMB** = rapid-fire machine gun
+- **E** = missiles
+- **Space** = climb
+- **C** = cockpit / normal view
 
-BOMBER
-- Hold LEFT MOUSE BUTTON (LMB) = rapid-fire machine gun.
-- B = drop bomb.
-- 6-bomb bay with the existing 9-second full reload.
-- SPACE = climb.
-- C = cockpit / normal view.
+## Bomber
+- Hold **LMB** = rapid-fire machine gun
+- **B** = drop bombs
+- 6-bomb bay
+- 9-second full reload after empty
+- **Space** = climb
+- **C** = cockpit / normal view
 
-MACHINE GUN
-- Hold LMB for continuous fire.
-- Visible rapid tracer rounds.
-- Can hit unarmed enemy planes on the Trench Air Range.
-- Can hit moving robot training targets.
-- Can damage the enemy base.
-- Base machine-gun damage: 10 HP per hit.
-- Can also damage police vehicles on the Cop Chase map.
+## Trench Air Range
+- Moving robot training targets
+- Unarmed enemy planes
+- Enemy base with **1000 HP**
+- Jet missiles deal **50 base damage**
+- Aircraft machine-gun rounds deal **10 base damage**
+- Enemy base respawns after **3 seconds**
 
-OTHER FEATURES REMAIN
-- Enemy planes have no guns.
-- Enemy base has 1000 HP.
-- Jet missiles do 50 base damage.
-- Bomber bombs, trench map, dev menu, graphics upgrades, and all earlier systems remain.
+## Other features
+- Cop Chase map
+- Helicopter bombs
+- Jet missiles
+- Bomber bombs
+- F1 dev menu
+- Upgraded lighting, shadows, terrain, trenches, smoke, and explosions
 
-Open `index.html` through a web server (GitHub Pages works well).
+Open `neon-pursuit/index.html` through a web server/GitHub-hosted page. The game loads Three.js from jsDelivr, so an internet connection is required on first load.
