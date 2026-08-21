@@ -1,1 +1,5 @@
-PLACEHOLDER
+<!doctype html>
+<html><head><meta charset="utf-8"><title>NEON PURSUIT</title><style>html,body{margin:0;background:#05080d;color:white;font-family:system-ui}#load{display:grid;place-items:center;height:100vh;font-size:20px}</style></head><body><div id="load">Loading NEON PURSUIT…</div><script type="module">
+const files=['chunks/payload-01.txt','chunks/payload-02.txt','chunks/payload-03.txt','chunks/payload-04.txt','chunks/payload-05.txt'];
+try{const parts=await Promise.all(files.map(f=>fetch(f).then(r=>{if(!r.ok)throw new Error(f);return r.text()})));const bin=Uint8Array.from(atob(parts.join('')),c=>c.charCodeAt(0));const ds=new DecompressionStream('gzip');const html=await new Response(new Blob([bin]).stream().pipeThrough(ds)).text();document.open();document.write(html);document.close();}catch(e){document.getElementById('load').textContent='Could not load game files: '+e;}
+</script></body></html>
